@@ -1,0 +1,44 @@
+<p>newsfeed works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col span2">
+            <!-- <input style="display: none" type="file" (change)="onFileChanged($event)"> -->
+            <input style=" display: none" type="file" name="image" ng2FileSelect [uploader]="uploader"
+                accept="image/x-png,image/gif,image/jpeg" #fileInput>
+            <button class="btn btn-primary custom" (click)="fileInput.click()">{{imgName}}</button>
+            <button class="btn btn-primary custom" type="button" (click)="onUpload()"
+                [disabled]="!uploader.getNotUploadedItems().length">Upload!</button>
+        </div>
+        <div class="col" *ngFor="let imgsrc of imgSrcs">
+            <img [src]="imgsrc" alt="Snow" style="width:100%">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" *ngFor="let miniStor of miniStory">
+            <p>{{miniStor.uid}}:{{miniStor.etag}}:{{miniStor.imgUrl}}</p>
+            <img [src]="miniStor.imgUrl">
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="col">
+        <div class="input-group">
+            <input class="form-control width100" placeholder="New Status" [(ngModel)]="postStr"
+                [ngModelOptions]="{standalone: true}">
+            <span class="input-group-btn">
+                <button class="btn btn-success" (click)="postStatus()">Post</button>
+            </span>
+        </div>
+        <br>
+        <div *ngFor="let ministatus of miniStatus">
+            <div class="row bg-info">
+                <p>
+                    {{ministatus.uid}} :
+                    {{ministatus.status}}
+                </p>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>

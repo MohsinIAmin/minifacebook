@@ -1,0 +1,38 @@
+<div class="wrapper" *ngIf='!this.isLogin'>
+    <div class="logo">
+        <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
+    </div>
+    <div class="text-center mt-4 name">
+        MiniFaceBook
+    </div>
+    <form class="p-3 mt-3">
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user"></span>
+            <input type="text" id="username" placeholder="Email" [(ngModel)]="username"
+                [ngModelOptions]="{standalone: true}">
+        </div>
+        <div *ngIf="errorUsername" class="text-center mt-4">
+            Email is required
+        </div>
+        <div class="form-field d-flex align-items-center">
+            <span class="fas fa-key"></span>
+            <input type="password" id="password" placeholder="Password" [(ngModel)]="password"
+                [ngModelOptions]="{standalone: true}">
+        </div>
+        <div *ngIf="errorPassword" class="text-center mt-4">
+            Password is required
+        </div>
+        <button class="btn mt-3" (click)="login()">Login</button>
+    </form>
+    <div class="text-center fs-6">
+        <a [routerLink]="['../register']" routerLinkActive="active">Sign up</a>
+    </div>
+    <div class="text-center">{{successMessage}}</div>
+</div>
+
+<div class='col-md-4 offset-4 mt-5' *ngIf='this.isLogin'>
+
+    <h1>You are logged in</h1>
+    <button class='btn btn-outline-info' (click)='logout()'>Log-out</button>
+
+</div>
