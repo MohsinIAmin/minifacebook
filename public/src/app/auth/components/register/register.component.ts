@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
     if (!this.validate()) {
       return;
     }
-    this._api.postTypeRequest('auth/register', { username: this.username, password: this.password }).subscribe((res: any) => {
+    this._api.postTypeRequest('auth/register', { email: this.username, password: this.password }).subscribe((res: any) => {
       const status = res.status;
       if (status == 201) {
         this._router.navigate(['login']);

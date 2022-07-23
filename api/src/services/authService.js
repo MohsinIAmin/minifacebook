@@ -5,11 +5,11 @@ const jwt = require('jsonwebtoken');
 const jwt_secret = require('../config/jwt.congif').JWT_SECRET;
 
 async function login(user) {
-    const { username, password } = user;
-    if (!(username && password)) {
+    const { email, password } = user;
+    if (!(email && password)) {
         return { status: 400, message: "all input required" };
     }
-    const rows = await query(`SELECT id, username, password FROM users WHERE username='${username}'`);
+    const rows = await query(`SELECT id, email, password FROM users WHERE email='${email}'`);
     if (rows.length == 0) {
         return { status: 409, message: "user dont have an account" };
     }
@@ -26,18 +26,18 @@ async function login(user) {
 }
 
 async function register(user) {
-    const { username, password } = user;
-    if (!(username && password)) {
+    const { email, password } = user;
+    if (!(email && password)) {
         return { status: 400, message: "all input required" };
     }
-    const rows = await query(`SELECT id, username, password FROM users WHERE username='${username}'`);
+    const rows = await query(`SELECT id, email, password FROM users WHERE email='${email}'`);
     const result1 = helper.emptyOrRows(rows);
     if (result1.length) {
         return { status: 409, message: "user already exist" };
     }
 
     const encryptedPassword = await bcrypt.hash(password, 10);
-    const result = await query(`INSERT INTO users (username, password) VALUES ("${username}","${encryptedPassword}")`);
+    const result = await query(`INSERT INTO users (email, password) VALUES ("${email}","${encryptedPassword}")`);
 
     if (result.affectedRows) {
         return { status: 201, message: "user created successfully" };

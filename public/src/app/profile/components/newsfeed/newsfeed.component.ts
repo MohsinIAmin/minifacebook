@@ -41,27 +41,10 @@ export class NewsfeedComponent implements OnInit {
       file.withCredentials = false;
     };
 
-    this.uploader.onCompleteItem = (item: any, response: string, status: any) => {
-      // console.log('Uploaded File Details:', item);
-      // console.log(response);
-    };
+    this.uploader.onCompleteItem = () => { };
 
-    this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+    this.uploader.onSuccessItem = () => { };
 
-  }
-
-  onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-    // let data = JSON.parse(response); //success server response
-    // console.log(status);
-  }
-
-  selectedFile?: File;
-  filesToUpload: Array<File> = [];
-
-  onFileChanged(event: any) {
-    this.selectedFile = event.target.files[0];
-    this.filesToUpload = <Array<File>>event.target.files;
-    this.imgName = String(this.selectedFile?.name);
   }
 
   onUpload() {
@@ -70,7 +53,7 @@ export class NewsfeedComponent implements OnInit {
 
   getUserId() {
     const userdata = JSON.parse(this._auth.getUserDetails() + '');
-    const uid = userdata.username;
+    const uid = userdata.email;
     return uid;
   }
   getStatus() {
@@ -86,12 +69,21 @@ export class NewsfeedComponent implements OnInit {
     });
   }
 
+  getImage() {
+    this._api.getTypeRequest(`story/file/${this.miniStory[0].filename}`).subscribe((res: any) => {
+      console.log(res);
+    });
+  }
   getStory() {
     const uid = this.getUserId();
     this._api.getTypeRequest(`story/${uid}`).subscribe((res: any) => {
       const status = res.status;
       if (status == 200) {
         this.miniStory = res.data;
+        for (const iterator of this.miniStory) {
+          iterator.imgSrc = "https://localhost:9000/minifacebook/"+iterator.filename;
+        }
+        this.getImage();
       } else {
         this._auth.clearStorage();
         this._router.navigate(['login']);
@@ -101,7 +93,7 @@ export class NewsfeedComponent implements OnInit {
 
   postStatus() {
     const userdata = JSON.parse(this._auth.getUserDetails() + '');
-    const uid = userdata.usernaem;
+    const uid = this.getUserId();
     this._api.postTypeRequest('status', { uid, status: this.postStr }).subscribe((res: any) => {
       const status = res.status;
       if (status == 201) {

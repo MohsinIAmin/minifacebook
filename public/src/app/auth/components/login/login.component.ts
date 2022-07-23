@@ -44,8 +44,7 @@ export class LoginComponent implements OnInit {
     if (!this.validate()) {
       return;
     }
-    this._api.postTypeRequest('auth/login', { username: this.username, password: this.password }).subscribe((res: any) => {
-      console.log(this.username, this.password);
+    this._api.postTypeRequest('auth/login', { email: this.username, password: this.password }).subscribe((res: any) => {
       const status = res.status;
       if (status == 200) {
         const token = res.userdata.token;

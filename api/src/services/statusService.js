@@ -2,6 +2,7 @@ const query = require('./db');
 const helper = require('./helper');
 
 async function getStatus(uid) {
+    // i want to change it
     const rows = await query(`SELECT id, uid, status, timestamp FROM status WHERE uid!='${uid}' ORDER BY timestamp DESC LIMIT 10`);
     const data = helper.emptyOrRows(rows);
     return { status: 200, data };

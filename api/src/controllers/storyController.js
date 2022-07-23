@@ -2,10 +2,16 @@ const storyService = require('../services/storyService');
 
 async function getStory(req, res) {
     try {
-        console.log(req.param);
         res.json(await storyService.getStory(req.params.uid));
     } catch (err) {
-        console.log(err);
+        res.send({ status: 500, message: err });
+    }
+}
+
+async function getFile(req, res) {
+    try {
+        await storyService.getFile(req.params.filename,res);
+    } catch (err) {
         res.send({ status: 500, message: err });
     }
 }
@@ -21,5 +27,6 @@ async function postStory(req, res) {
 
 module.exports = {
     getStory,
-    postStory
+    postStory,
+    getFile
 };

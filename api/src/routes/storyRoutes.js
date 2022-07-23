@@ -10,7 +10,7 @@ let storage = multer.diskStorage({
         cb(null, PATH);
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
+        cb(null, file.originalname)
     }
 });
 let upload = multer({
@@ -18,6 +18,7 @@ let upload = multer({
 });
 
 router.get('/:uid', storyController.getStory);
+router.get('/file/:filename',storyController.getFile)
 router.post('/', upload.single("image"), storyController.postStory);
 
 module.exports = router;

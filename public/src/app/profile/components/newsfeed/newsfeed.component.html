@@ -15,8 +15,8 @@
     </div>
     <div class="row">
         <div class="col" *ngFor="let miniStor of miniStory">
-            <p>{{miniStor.uid}}:{{miniStor.etag}}:{{miniStor.imgUrl}}</p>
-            <img [src]="miniStor.imgUrl">
+            <p>{{miniStor.uid}}:{{miniStor.filename}}:{{miniStor.timestamp}}</p>
+            <img src={{miniStor.imgSrc}}>
         </div>
     </div>
 </div>
