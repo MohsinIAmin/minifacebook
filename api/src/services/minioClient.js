@@ -1,10 +1,11 @@
 const Minio = require('minio');
+const config = require('../config/minio.config');
 
 const minioClient = new Minio.Client({
-    endPoint: 'localhost',
-    port: 9000,
-    accessKey: 'admin',
-    secretKey: 'password',
+    endPoint: config.objDB.endPoint,
+    port: config.objDB.port,
+    accessKey: config.objDB.accessKey,
+    secretKey: config.objDB.secretKey,
     useSSL: false
 });
 
