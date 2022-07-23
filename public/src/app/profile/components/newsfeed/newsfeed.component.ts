@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 
-const URL = 'http://localhost:3000/story';
+const URLstory = 'http://localhost:3000/story';
 
 @Component({
   selector: 'app-newsfeed',
@@ -25,13 +26,16 @@ export class NewsfeedComponent implements OnInit {
 
 
   public uploader: FileUploader = new FileUploader({
-    url: URL,
+    url: URLstory,
     itemAlias: 'image',
     additionalParameter: {
       uid: this.getUserId()
     }
   });
-  constructor(private _auth: AuthService, private _api: ApiService, private _router: Router) { }
+  constructor(private _auth: AuthService,
+    private _api: ApiService,
+    private _router: Router,
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getStatus();
@@ -70,9 +74,12 @@ export class NewsfeedComponent implements OnInit {
   }
 
   getImage() {
-    this._api.getTypeRequest(`story/file/${this.miniStory[0].filename}`).subscribe((res: any) => {
-      console.log(res);
-    });
+    for (let i = 0; i < this.miniStory.length; i++) {
+      this._api.getTypeRequestReturnBlob(`story/file/${this.miniStory[i].filename}`).subscribe((res: any) => {
+        this.miniStory[i].imgUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(res.body));
+        console.log(this.miniStory[i].imgUrl);
+      });
+    }
   }
   getStory() {
     const uid = this.getUserId();
@@ -80,9 +87,9 @@ export class NewsfeedComponent implements OnInit {
       const status = res.status;
       if (status == 200) {
         this.miniStory = res.data;
-        for (const iterator of this.miniStory) {
-          iterator.imgSrc = "https://localhost:9000/minifacebook/"+iterator.filename;
-        }
+        // for (const iterator of this.miniStory) {
+        //   iterator.imgSrc = "https://localhost:9000/minifacebook/"+iterator.filename;
+        // }
         this.getImage();
       } else {
         this._auth.clearStorage();

@@ -18,6 +18,12 @@ export class ApiService {
     }));
   }
 
+  getTypeRequestReturnBlob(url: string) {
+    return this._http.get(`${this.baseUrl}${url}`, { responseType: 'blob', observe: 'response' }).pipe(map(res => {
+      return res;
+    }));
+  }
+
   postTypeRequest(url: string, payload: any) {
     return this._http.post(`${this.baseUrl}${url}`, payload).pipe(map(res => {
       return res;

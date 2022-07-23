@@ -1,4 +1,4 @@
-<p>newsfeed works!</p>
+<br>
 <div class="container">
     <div class="row">
         <div class="col span2">
@@ -9,14 +9,8 @@
             <button class="btn btn-primary custom" type="button" (click)="onUpload()"
                 [disabled]="!uploader.getNotUploadedItems().length">Upload!</button>
         </div>
-        <div class="col" *ngFor="let imgsrc of imgSrcs">
-            <img [src]="imgsrc" alt="Snow" style="width:100%">
-        </div>
-    </div>
-    <div class="row">
         <div class="col" *ngFor="let miniStor of miniStory">
-            <p>{{miniStor.uid}}:{{miniStor.filename}}:{{miniStor.timestamp}}</p>
-            <img src={{miniStor.imgSrc}}>
+            <img [src]="miniStor.imgUrl" [alt]="miniStor.uid" style="width:100%" [title]="miniStor.uid">
         </div>
     </div>
 </div>

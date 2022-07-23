@@ -11,7 +11,6 @@ async function getStory(uid) {
 
 async function getFile(filename, res) {
     let data;
-    console.log(filename);
     minioClient.getObject('minifacebook', filename, function (err, objStream) {
         if (err) {
             res.send({ status: 404 });
@@ -23,7 +22,6 @@ async function getFile(filename, res) {
         })
         objStream.on('end', function () {
             res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-            console.log(data);
             res.write(data);
             res.end();
         })
