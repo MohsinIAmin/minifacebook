@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit {
   logout() {
     this._auth.clearStorage();
     this.isLogin = false;
-    this._router.navigate(['login']);
+    this._router.navigate(['register']);
   }
 
 }

@@ -37,6 +37,7 @@ async function getFile(req, res) {
         }
         await storyService.getFile(req.params.filename, res);
     } catch (err) {
+        console.error(err);
         res.send({ status: 500, message: err });
     }
 }
@@ -49,7 +50,7 @@ async function postStory(req, res) {
         }
         res.json(await storyService.postStory(req));
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.send({ status: 500, message: err });
     }
 }

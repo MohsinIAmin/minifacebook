@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 const query = require('./db');
 const helper = require('./helper');
 const minioClient = require('./minioClient');
@@ -16,7 +17,6 @@ async function getFile(filename, res) {
             res.send({ status: 404 });
             return;
         }
-        // console.log(objStream);
         objStream.on('data', function (chunk) {
             data = !data ? new Buffer(chunk) : Buffer.concat([data, chunk]);
         })
@@ -39,7 +39,9 @@ async function postStory(image) {
         if (error) {
             return { status: 400 };
         }
+        fs.unlinkSync(imageFile.path);
     });
+
     const uid = image.body.uid;
     const timestamp = Date.now();
     const result = await query(`INSERT INTO story (uid, filename,timestamp) VALUES ('${uid}',"${uuid}","${timestamp}")`);

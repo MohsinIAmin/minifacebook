@@ -59,7 +59,6 @@ export class NewsfeedComponent implements OnInit {
     for (let i = 0; i < this.miniStory.length; i++) {
       this._api.getTypeRequestReturnBlob(`story/file/${this.miniStory[i].filename}`).subscribe((res: any) => {
         this.miniStory[i].imgUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(res.body));
-        console.log(this.miniStory[i].imgUrl);
       });
     }
   }

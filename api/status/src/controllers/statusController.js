@@ -24,7 +24,7 @@ async function getStatus(req, res) {
         }
         res.json(await statusService.getStatus(uid));
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.send({ status: 500, message: err });
     }
 }
@@ -37,7 +37,7 @@ async function postStatus(req, res) {
         }
         res.json(await statusService.postStatus(uid, req.body.status));
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.send({ status: 500, message: err });
     }
 }
