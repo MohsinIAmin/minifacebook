@@ -8,10 +8,9 @@ async function getStatus(uid) {
     return { status: 200, data };
 }
 
-async function postStatus(newstatus) {
-    const { uid, status } = newstatus;
+async function postStatus(uid, newstatus) {
     const timestamp = Date.now();
-    const result = await query(`INSERT INTO status (uid, status, timestamp) VALUES ('${uid}',"${status}",${timestamp})`);
+    const result = await query(`INSERT INTO status (uid, status, timestamp) VALUES ('${uid}',"${newstatus}",${timestamp})`);
     if (result.affectedRows) {
         return { status: 201, message: "Status posted successfully" };
     }

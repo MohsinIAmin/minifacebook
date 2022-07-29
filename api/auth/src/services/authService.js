@@ -45,7 +45,20 @@ async function register(user) {
     return { status: 500, message: "error in creating new user" };
 }
 
+async function verifyToken(token) {
+    let email = '';
+    let st = 401;
+    jwt.verify(token, jwt_secret, function (err, decoded) {
+        if (decoded) {
+            email = decoded.email;
+            st = 200;
+        }
+    });
+    return { status: st, uid: email };
+}
+
 module.exports = {
     login,
-    register
+    register,
+    verifyToken
 }

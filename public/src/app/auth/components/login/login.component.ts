@@ -48,8 +48,6 @@ export class LoginComponent implements OnInit {
       const status = res.status;
       if (status == 200) {
         const token = res.userdata.token;
-        const userdata = res.userdata;
-        this._auth.setDataInLocalStorage('userdata', JSON.stringify(userdata));
         this._auth.setDataInLocalStorage('token', token);
         this._router.navigate(['newsfeed']);
       } else if (status == 400) {
@@ -61,7 +59,7 @@ export class LoginComponent implements OnInit {
   }
 
   private isUserLogin() {
-    if (this._auth.getUserDetails() != null) {
+    if (this._auth.getToken() != null) {
       this.isLogin = true;
     }
   }

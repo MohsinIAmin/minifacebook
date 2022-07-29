@@ -18,7 +18,17 @@ async function register(req, res) {
     }
 }
 
+async function verifyToken(req, res) {
+    try {
+        res.json(await authService.verifyToken(req.body.token));
+    } catch (err) {
+        console.log(err);
+        res.send({ status: 401, message: err });
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    verifyToken
 }

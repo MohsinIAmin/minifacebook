@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private isUserLogin() {
-    if (this._auth.getUserDetails() != null) {
+    if (this._auth.getToken() != null) {
       this.isLogin = true;
     }
   }

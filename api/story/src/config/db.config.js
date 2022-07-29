@@ -3,7 +3,6 @@ module.exports = {
         host: "localhost",
         user: "minifacebook",
         password: "PuxBnWhh89HxDbZN",
-        database: "minifacebook"
-    },
-    listPerPage: 10,
+        database: "ministory"
+    }
 };

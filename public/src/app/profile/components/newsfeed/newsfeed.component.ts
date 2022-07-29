@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
 
-const URLstory = 'http://localhost:3000/story';
+const URLstory = environment.baseUrl + 'story';
 
 @Component({
   selector: 'app-newsfeed',
@@ -18,19 +19,11 @@ export class NewsfeedComponent implements OnInit {
   postStr: string = '';
   miniStatus: any = [];
   miniStory: any = [];
-  imgSrcs: any = ['../../../../assets/face.jpg',
-    '../../../../assets/face.jpg', '../../../../assets/face.jpg', '../../../../assets/face.jpg'
-    , '../../../../assets/face.jpg', '../../../../assets/face.jpg', '../../../../assets/face.jpg'
-    , '../../../../assets/face.jpg', '../../../../assets/face.jpg', '../../../../assets/face.jpg'];
-
-
 
   public uploader: FileUploader = new FileUploader({
     url: URLstory,
     itemAlias: 'image',
-    additionalParameter: {
-      uid: this.getUserId()
-    }
+    authToken: this._auth.getToken() + '',
   });
   constructor(private _auth: AuthService,
     private _api: ApiService,
@@ -44,25 +37,14 @@ export class NewsfeedComponent implements OnInit {
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
     };
-
-    this.uploader.onCompleteItem = () => { };
-
-    this.uploader.onSuccessItem = () => { };
-
   }
 
   onUpload() {
     this.uploader.uploadAll();
   }
 
-  getUserId() {
-    const userdata = JSON.parse(this._auth.getUserDetails() + '');
-    const uid = userdata.email;
-    return uid;
-  }
   getStatus() {
-    const uid = this.getUserId();
-    this._api.getTypeRequest(`status/${uid}`).subscribe((res: any) => {
+    this._api.getTypeRequest('status').subscribe((res: any) => {
       const status = res.status;
       if (status == 200) {
         this.miniStatus = res.data;
@@ -81,15 +63,12 @@ export class NewsfeedComponent implements OnInit {
       });
     }
   }
+  
   getStory() {
-    const uid = this.getUserId();
-    this._api.getTypeRequest(`story/${uid}`).subscribe((res: any) => {
+    this._api.getTypeRequest('story').subscribe((res: any) => {
       const status = res.status;
       if (status == 200) {
         this.miniStory = res.data;
-        // for (const iterator of this.miniStory) {
-        //   iterator.imgSrc = "https://localhost:9000/minifacebook/"+iterator.filename;
-        // }
         this.getImage();
       } else {
         this._auth.clearStorage();
@@ -99,9 +78,7 @@ export class NewsfeedComponent implements OnInit {
   }
 
   postStatus() {
-    const userdata = JSON.parse(this._auth.getUserDetails() + '');
-    const uid = this.getUserId();
-    this._api.postTypeRequest('status', { uid, status: this.postStr }).subscribe((res: any) => {
+    this._api.postTypeRequest('status', { status: this.postStr }).subscribe((res: any) => {
       const status = res.status;
       if (status == 201) {
         this.getStatus();
