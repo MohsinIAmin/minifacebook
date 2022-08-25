@@ -1,6 +1,6 @@
 module.exports = {
     db: {
-        host: "localhost",
+        host: "10.100.104.16",
         user: "minifacebook",
         password: "PuxBnWhh89HxDbZN",
         database: "miniauth"
