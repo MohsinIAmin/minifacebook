@@ -16,8 +16,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/auth', authRouter);
+app.use('/user', authRouter);
 
 app.listen(PORT, () => {
-    console.log(`MiniFacebook auth service is listening on port ${PORT}`);
+    console.log(`MiniFacebook user service is listening on port ${PORT}`);
 });

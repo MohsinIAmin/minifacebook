@@ -1,10 +1,10 @@
 const statusService = require('../services/statusService');
 const axios = require('axios');
-const authUrl = require('../config/peer.config').serverUrl.auth;
+const userUrl = require('../config/peer.config').serverUrl.user;
 
 async function verifyToken(token) {
     let uid;
-    await axios.post(authUrl, { token: token })
+    await axios.post(userUrl, { token: token })
         .then(res => {
             if (res.data.status == 200) {
                 uid = res.data.uid;

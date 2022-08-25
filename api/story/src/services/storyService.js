@@ -18,7 +18,7 @@ async function getFile(filename, res) {
             return;
         }
         objStream.on('data', function (chunk) {
-            data = !data ? new Buffer(chunk) : Buffer.concat([data, chunk]);
+            data = !data ? new Buffer.from(chunk) : Buffer.concat([data, chunk]);
         })
         objStream.on('end', function () {
             res.writeHead(200, { 'Content-Type': 'image/jpeg' });
@@ -32,7 +32,7 @@ async function getFile(filename, res) {
     });
 }
 
-async function postStory(image) {
+async function postStory(uid, image) {
     const uuid = uuidv4() + '.jpg';
     const imageFile = image.file;
     minioClient.fPutObject('minifacebook', uuid, imageFile.path, async function (error) {
@@ -42,7 +42,6 @@ async function postStory(image) {
         fs.unlinkSync(imageFile.path);
     });
 
-    const uid = image.body.uid;
     const timestamp = Date.now();
     const result = await query(`INSERT INTO story (uid, filename,timestamp) VALUES ('${uid}',"${uuid}","${timestamp}")`);
     if (result.affectedRows) {
