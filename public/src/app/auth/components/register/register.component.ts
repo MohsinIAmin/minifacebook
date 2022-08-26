@@ -54,6 +54,8 @@ export class RegisterComponent implements OnInit {
         this.successMessage = "An error occured. Please try again";
       } else if (status == 400) {
         this.successMessage = "All input required";
+      } else {
+        this.successMessage = "Broken";
       }
     });
   }

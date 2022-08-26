@@ -54,6 +54,8 @@ export class LoginComponent implements OnInit {
         this.successMessage = "Email or password is wrong";
       } else if (status == 409) {
         this.successMessage = "Email not found";
+      } else {
+        this.successMessage = "Broken";
       }
     });
   }

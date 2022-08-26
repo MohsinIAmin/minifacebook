@@ -1,43 +1,27 @@
-x-common-variables:
-  &common-variables
-  MYSQL_DATABASE: miniauth
-  MYSQL_USER: MYSQL_USER
-  MYSQL_PASSWORD: MYSQL_PASSWORD
+version: "3.7"
 
 services:
-  mysql_db:
-    image: mysql
-    restart: always
-    cap_add:
-      - SYS_NICE
-    volumes:
-      - "./setup.sql:/docker-entrypoint-initdb.d/setup.sql"
-    ports:
-      - "9906:3306"
-    environment:
-      <<: *common-variables
-      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
-      MYSQL_HOST: localhost
-
   user:
-    build:
-      dockerfile: Dockerfile
-      context: "./server"
-    depends_on:
-      - mysql_db
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-    environment:
-      <<: *common-variables
-      MYSQL_HOST_IP: mysql_db
-
-  adminer:
-    image: adminer:latest
-    restart: unless-stopped
+    image: node:latest
+    command: sh -c "npm install && npm run dev"
     ports:
-      - 8000:8080
-    depends_on:
-      - mysql_db
+      - 3001:3001
+    working_dir: /app
+    volumes:
+      - ./:/app
     environment:
-      ADMINER_DEFAULT_SERVER: mysql_db
+      MYSQL_HOST: mysql_user
+      MYSQL_USER: minifacebook
+      MYSQL_PASSWORD: PuxBnWhh89HxDbZN
+      MYSQL_DB: miniauth
+
+  mysql_user:
+    image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: PuxBnWhh89HxDbZN
+      MYSQL_DATABASE: miniauth
+
+volumes:
+  todo-mysql-data:
