@@ -19,5 +19,5 @@ app.use(function (req, res, next) {
 app.use('/status', statusRouter);
 
 app.listen(PORT, () => {
-    console.log(`MiniFacebook backend is listening on port ${PORT}`);
+    console.log(`MiniFacebook status service is listening on port ${PORT}`);
 });

@@ -21,6 +21,7 @@ async function getStatus(req, res) {
         uid = await verifyToken(req.headers.authorization);
         if (uid == null) {
             res.send({ status: 402, message: "not verified" });
+            return;
         }
         res.json(await statusService.getStatus(uid));
     } catch (err) {

@@ -1,5 +1,5 @@
 module.exports = {
     serverUrl: {
-        user: "http://localhost:3001/user/tokenverify"
+        user: "http://userservice:3001/user/tokenverify"
     }
 };

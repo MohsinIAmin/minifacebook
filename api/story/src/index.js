@@ -19,5 +19,5 @@ app.use(function (req, res, next) {
 app.use('/story', storyRouter);
 
 app.listen(PORT, () => {
-    console.log(`MiniFacebook backend is listening on port ${PORT}`);
+    console.log(`MiniFacebook story service is listening on port ${PORT}`);
 });
