@@ -4,9 +4,9 @@ services:
   nginx:
     image: nginx
     restart: unless-stopped
-    ports: 
+    ports:
       - 80:80
-    volumes: 
+    volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - userservice
@@ -21,18 +21,27 @@ services:
 
   userdb:
     image: mysql:latest
-
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'miniuser'
+      MYSQL_USER: 'minifacebook'
+      MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
 
   statusservice:
     build: ./status
     restart: unless-stopped
     depends_on:
       - statusdb
-  
+
   statusdb:
     image: mysql:latest
+    restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=value
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'ministatus'
+      MYSQL_USER: 'minifacebook'
+      MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
 
   storyservice:
     build: ./story
@@ -43,8 +52,12 @@ services:
 
   storydb:
     image: mysql:latest
+    restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=value
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'ministory'
+      MYSQL_USER: 'minifacebook'
+      MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
 
   storyobjectdb:
     image: minio/minio:latest
