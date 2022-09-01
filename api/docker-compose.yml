@@ -31,6 +31,7 @@ services:
       MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
     volumes:
       - ./userdb:/docker-entrypoint-initdb.d
+      - userdata:/var/lib/mysql
 
   statusservice:
     build: ./status
@@ -50,6 +51,7 @@ services:
       MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
     volumes:
       - ./statusdb:/docker-entrypoint-initdb.d
+      - statusdata:/var/lib/mysql
 
   storyservice:
     build: ./story
@@ -70,6 +72,7 @@ services:
       MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
     volumes:
       - ./storydb:/docker-entrypoint-initdb.d
+      - storydata:/var/lib/mysql
 
   storyobjectdb:
     image: minio/minio:latest
@@ -77,3 +80,11 @@ services:
       - MINIO_ROOT_USER=2yScPd5Ss5BGuEUk
       - MINIO_ROOT_PASSWORD=mOLBN9GwA75veIWlmYU0mhlTTWeUkqyg
     command: server --address 0.0.0.0:9000 /data
+    volumes:
+      - storyobjectdata:/data
+
+volumes:
+  userdata:
+  statusdata:
+  storydata:
+  storyobjectdata:
