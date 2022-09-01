@@ -22,11 +22,15 @@ services:
   userdb:
     image: mysql:latest
     restart: unless-stopped
+    cap_add:
+      - SYS_NICE
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'miniuser'
       MYSQL_USER: 'minifacebook'
       MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
+    volumes:
+      - ./userdb:/docker-entrypoint-initdb.d
 
   statusservice:
     build: ./status
@@ -37,11 +41,15 @@ services:
   statusdb:
     image: mysql:latest
     restart: unless-stopped
+    cap_add:
+      - SYS_NICE
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'ministatus'
       MYSQL_USER: 'minifacebook'
       MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
+    volumes:
+      - ./statusdb:/docker-entrypoint-initdb.d
 
   storyservice:
     build: ./story
@@ -53,15 +61,19 @@ services:
   storydb:
     image: mysql:latest
     restart: unless-stopped
+    cap_add:
+      - SYS_NICE
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'ministory'
       MYSQL_USER: 'minifacebook'
       MYSQL_PASSWORD: 'PuxBnWhh89HxDbZN'
+    volumes:
+      - ./storydb:/docker-entrypoint-initdb.d
 
   storyobjectdb:
     image: minio/minio:latest
     environment:
-      - MINIO_ACCESS_KEY=2yScPd5Ss5BGuEUk
-      - MINIO_SECRET_KEY=mOLBN9GwA75veIWlmYU0mhlTTWeUkqyg
+      - MINIO_ROOT_USER=2yScPd5Ss5BGuEUk
+      - MINIO_ROOT_PASSWORD=mOLBN9GwA75veIWlmYU0mhlTTWeUkqyg
     command: server --address 0.0.0.0:9000 /data
