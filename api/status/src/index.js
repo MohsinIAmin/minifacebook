@@ -4,7 +4,7 @@ const statusRouter = require('./routes/statusRoutes');
 
 const app = express();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());

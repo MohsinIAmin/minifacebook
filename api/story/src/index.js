@@ -6,7 +6,7 @@ const minioClient = require('./services/minioClient');
 
 const app = express();
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
