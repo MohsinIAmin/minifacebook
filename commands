@@ -1,0 +1,15 @@
+minifacebook/public$ ng build
+
+minifacebook/api/user$ docker build -t mohsinamin/userservice .
+
+minifacebook/api/status$ docker build -t mohsinamin/statusservice .
+
+minifacebook/api/story$ docker build -t mohsinamin/storyservice .
+
+minifacebook$ docker build -t mohsinamin/minifacebookstack .
+
+minifacebook$ docker swarm init
+
+minifacebook$ docker stack deploy --compose-file docker-compose.yml minifacebook
+
+minifacebook$ docker service update minifacebook_nginx --publish-add 80:80
